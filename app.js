@@ -1,3 +1,5 @@
+console.log("JavaScript is working!");
+alert("Hello, Staff Tracker is loading!");
 import React, { useState, useEffect } from 'react';
 import { Calendar, User, Coffee, DollarSign, Plus, X, RefreshCw } from 'lucide-react';
 
