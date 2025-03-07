@@ -1,5 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import { Calendar, User, Coffee, DollarSign, Plus, X, RefreshCw } from 'lucide-react';
+// app.js - Using ES Modules
+import { createRoot } from 'https://esm.sh/react-dom/client';
+import React, { useState, useEffect } from 'https://esm.sh/react';
+import { Calendar, User, Coffee, DollarSign, Plus, X, RefreshCw } from 'https://esm.sh/lucide-react';
 
 const App = () => {
   // App state
@@ -32,9 +34,30 @@ const App = () => {
   const [newStaff, setNewStaff] = useState({ name: '', salary: 0, shifts: 1 });
   const [newItem, setNewItem] = useState({ name: '', price: 0, unit: 'units' });
   
+  // Load data from local storage on component mount
+  useEffect(() => {
+    const loadSavedData = () => {
+      try {
+        const storedData = localStorage.getItem('trackerData');
+        if (storedData) {
+          setSavedData(JSON.parse(storedData));
+        }
+      } catch (error) {
+        console.error("Error loading saved data:", error);
+      }
+    };
+    
+    loadSavedData();
+  }, []);
+  
+  // Initialize month-to-date calculation on app load and month change
+  useEffect(() => {
+    calculateMonthToDate();
+  }, [currentDate.getMonth(), savedData]);
+  
   // Handler functions
   const toggleAttendance = (id) => {
-    set(.map(s => s.id === id ? { ...s, present: !s.present } : s));
+    setStaff(staff.map(s => s.id === id ? { ...s, present: !s.present } : s));
   };
   
   const updateQuantity = (id, change) => {
@@ -142,11 +165,6 @@ const App = () => {
     }
   };
   
-  // Initialize month-to-date calculation on app load and month change
-  useEffect(() => {
-    calculateMonthToDate();
-  }, [currentDate.getMonth(), savedData]);
-  
   // Save data
   const saveData = async () => {
     try {
@@ -185,22 +203,6 @@ const App = () => {
   const formatDate = (date) => {
     return date.toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' });
   };
-  
-  // Load data from local storage on component mount
-  useEffect(() => {
-    const loadSavedData = () => {
-      try {
-        const storedData = localStorage.getItem('trackerData');
-        if (storedData) {
-          setSavedData(JSON.parse(storedData));
-        }
-      } catch (error) {
-        console.error("Error loading saved data:", error);
-      }
-    };
-    
-    loadSavedData();
-  }, []);
   
   return (
     <div className="container mx-auto p-2 max-w-md">
@@ -356,7 +358,7 @@ const App = () => {
                   <h4 className="font-medium text-gray-700 border-b pb-1 mb-2">Staff Expenses</h4>
                   <div className="space-y-2">
                     {staff.map(staffMember => {
-                      const presenceDays = (monthToDateData.staffPresence[staffMember.id] && monthToDateData.staffPresence[staffMember.id].present) || 0;
+                      const presenceDays = monthToDateData.staffPresence[staffMember.id]?.present || 0;
                       const staffSalary = (staffMember.salary / 30) * presenceDays * staffMember.shifts;
                       return (
                         <div key={staffMember.id} className="flex justify-between text-sm">
@@ -651,4 +653,6 @@ const App = () => {
   );
 };
 
-export default App;
+// Mount the React application
+const root = createRoot(document.getElementById('root'));
+root.render(<App />);
