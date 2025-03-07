@@ -56,24 +56,24 @@ const App = () => {
   }, [currentDate.getMonth(), savedData]);
   
   // Handler functions
-  const toggleAttendance = (id) => {
-  students = students.map(s => 
+const toggleAttendance = (id) => {
+  setStudents(students.map(s => 
     s.id === id ? { ...s, present: !s.present } : s
-  );
-  };
-  
-  const updateQuantity = (id, change) => {
-    setItems(items.map(item => 
-      item.id === id ? { ...item, quantity: Math.max(0, item.quantity + change) } : item
-    ));
-  };
-  
-  const addStaff = () => {
-    if (!newStaff.name) return;
-    const newId = staff.length > 0 ? Math.max(...staff.map(s => s.id)) + 1 : 1;
-    setStaff([...staff, { ...newStaff, id: newId, present: true }]);
-    setNewStaff({ name: '', salary: 0, shifts: 1 });
-  };
+  ));
+};
+
+const updateQuantity = (id, change) => {
+  setItems(items.map(item => 
+    item.id === id ? { ...item, quantity: Math.max(0, item.quantity + change) } : item
+  ));
+};
+
+const addStaff = () => {
+  if (!newStaff.name) return;
+  const newId = staff.length > 0 ? Math.max(...staff.map(s => s.id)) + 1 : 1;
+  setStaff([...staff, { ...newStaff, id: newId, present: true }]);
+  setNewStaff({ name: '', salary: 0, shifts: 1 });
+};
   
   const removeStaff = (id) => {
     setStaff(staff.filter(s => s.id !== id));
