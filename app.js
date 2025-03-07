@@ -34,7 +34,7 @@ const App = () => {
   
   // Handler functions
   const toggleAttendance = (id) => {
-    setStaff(staff.map(s => s.id === id ? { ...s, present: !s.present } : s));
+    set(.map(s => s.id === id ? { ...s, present: !s.present } : s));
   };
   
   const updateQuantity = (id, change) => {
@@ -356,7 +356,7 @@ const App = () => {
                   <h4 className="font-medium text-gray-700 border-b pb-1 mb-2">Staff Expenses</h4>
                   <div className="space-y-2">
                     {staff.map(staffMember => {
-                      const presenceDays = monthToDateData.staffPresence[staffMember.id]?.present || 0;
+                      const presenceDays = (monthToDateData.staffPresence[staffMember.id] && monthToDateData.staffPresence[staffMember.id].present) || 0;
                       const staffSalary = (staffMember.salary / 30) * presenceDays * staffMember.shifts;
                       return (
                         <div key={staffMember.id} className="flex justify-between text-sm">
