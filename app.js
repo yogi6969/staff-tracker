@@ -57,8 +57,9 @@ const App = () => {
   
   // Handler functions
   const toggleAttendance = (id) => {
-    setStudents(prevStudents =>
-    prevStudents.map(s => s.id === id ? { ...s, present: !s.present } : s)
+  students = students.map(s => 
+    s.id === id ? { ...s, present: !s.present } : s
+  );
   };
   
   const updateQuantity = (id, change) => {
